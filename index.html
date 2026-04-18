@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="MediScan AI — Upload a medical document or describe your symptoms and get an instant, structured AI analysis powered by Google Gemini." />
+  <title>MediScan AI — Medical Document Analyzer</title>
+
+  <!-- Favicon (inline SVG) -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🩺</text></svg>" />
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════
+       SIDEBAR
+  ══════════════════════════════════════════════════ -->
+  <aside id="sidebar" role="complementary" aria-label="MediScan sidebar">
+
+    <!-- Logo -->
+    <div class="sidebar-logo">
+      <div class="logo-text">
+        <div class="logo-icon" aria-hidden="true">🩺</div>
+        <div>
+          <div class="logo-name">MediScan AI</div>
+          <div class="logo-tagline">Medical Document Analyzer</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Session History -->
+    <div class="sidebar-section" style="margin-top: 24px;">
+      <div class="sidebar-section-title">Scan History</div>
+    </div>
+    <div class="sidebar-history" aria-label="Session history">
+      <ul id="history-list" role="list" aria-label="Past scans"></ul>
+    </div>
+
+    <!-- Footer -->
+    <div class="sidebar-footer">
+      <button id="clear-history-btn" aria-label="Clear all scan history">🗑 Clear History</button>
+    </div>
+  </aside>
+
+  <!-- ═══════════════════════════════════════════════
+       MOBILE TOP BAR
+  ══════════════════════════════════════════════════ -->
+  <div id="topbar" role="banner">
+    <button id="sidebar-toggle" aria-label="Open sidebar" aria-expanded="false">☰</button>
+    <span class="topbar-title">🩺 MediScan AI</span>
+  </div>
+
+  <!-- Mobile overlay -->
+  <div id="main-overlay" aria-hidden="true"></div>
+
+  <!-- ═══════════════════════════════════════════════
+       MAIN CONTENT
+  ══════════════════════════════════════════════════ -->
+  <main id="main-content" role="main">
+    <div class="content-area">
+
+      <h1 class="page-title">Medical Analysis</h1>
+      <p class="page-subtitle">Upload a medical document or describe your symptoms for an AI‑powered analysis.</p>
+
+      <!-- Error Banner -->
+      <div id="error-banner" role="alert" aria-live="assertive">
+        <span class="error-icon" aria-hidden="true">⚠️</span>
+        <span id="error-msg"></span>
+        <button id="error-close" class="error-close-btn" aria-label="Dismiss error">✕</button>
+      </div>
+
+      <!-- ─── Input Section ───────────────────────────── -->
+      <section class="input-section" aria-label="Document input">
+
+        <!-- Image Upload Card -->
+        <div class="input-card">
+          <div class="input-card-title">
+            <span aria-hidden="true">📁</span> Upload Medical Document
+          </div>
+
+          <div
+            id="drop-zone"
+            role="button"
+            tabindex="0"
+            aria-label="Drop zone for medical document image. Click or drag a file here."
+          >
+            <span class="drop-zone-icon" aria-hidden="true">🖼️</span>
+            <span class="drop-zone-label">Drag &amp; drop your medical image here</span>
+            <span class="drop-zone-hint">
+              or <strong tabindex="0" role="button" aria-label="Choose file">choose a file</strong> · JPEG, PNG, WebP, GIF, BMP
+            </span>
+
+            <!-- Hidden file input -->
+            <input
+              id="file-input"
+              type="file"
+              accept="image/jpeg,image/png,image/webp,image/gif,image/bmp"
+              style="display:none"
+              aria-hidden="true"
+              tabindex="-1"
+            />
+
+            <!-- Preview (shown when file selected) -->
+            <div id="image-preview" role="img" aria-label="Selected image preview">
+              <img id="preview-img" alt="Selected medical document thumbnail" />
+              <div class="preview-meta">
+                <div class="preview-filename" id="preview-name">filename.jpg</div>
+                <div class="preview-filesize" id="preview-size">2.1 MB</div>
+              </div>
+              <button id="remove-image" aria-label="Remove selected image">Remove</button>
+            </div>
+          </div>
+
+          <div id="compression-note" role="status" aria-live="polite">
+            ⚠️ Image exceeds 4 MB — it will be automatically compressed before analysis.
+          </div>
+        </div>
+
+        <!-- Symptoms / Text Input Card -->
+        <div class="input-card">
+          <div class="input-card-title">
+            <span aria-hidden="true">✏️</span> Describe Symptoms or Medicine Name
+          </div>
+          <div class="textarea-wrap">
+            <textarea
+              id="symptoms-input"
+              placeholder="E.g. 'I have had a persistent cough for 3 weeks, mild fever at night, and fatigue…' or paste medicine names, lab values, dosages…"
+              maxlength="2000"
+              aria-label="Symptom description or medicine names"
+              spellcheck="true"
+            ></textarea>
+          </div>
+          <div class="char-count" id="char-count" aria-live="polite">0 / 2000</div>
+        </div>
+
+      </section>
+
+      <!-- ─── Analyze Button ───────────────────────────── -->
+      <button id="analyze-btn" aria-label="Analyze medical document">
+        <span class="btn-spinner" id="analyze-btn-spinner" aria-hidden="true"></span>
+        <span id="analyze-btn-text">Analyze</span>
+        <span aria-hidden="true" style="font-size:1.1rem">→</span>
+      </button>
+
+      <!-- ─── Results Section ──────────────────────────── -->
+      <section id="results-section" aria-label="Analysis results" aria-live="polite">
+        <h2 class="results-heading">
+          <span aria-hidden="true">✅</span> Analysis Results
+        </h2>
+        <div id="results-container" role="region" aria-label="Result cards"></div>
+      </section>
+
+    </div><!-- /.content-area -->
+  </main><!-- /#main-content -->
+
+  <!-- ═══════════════════════════════════════════════
+       LOADING OVERLAY
+  ══════════════════════════════════════════════════ -->
+  <div id="loading-overlay" role="dialog" aria-modal="true" aria-label="Analyzing your medical data" aria-live="assertive">
+    <div class="loading-box">
+      <div class="loading-spinner-large" aria-hidden="true"></div>
+      <div class="loading-title">Analyzing your medical data…</div>
+      <div class="loading-subtitle">
+        Gemini AI is reading your document.<br />This usually takes 5–15 seconds.
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════
+       TOAST CONTAINER
+  ══════════════════════════════════════════════════ -->
+  <div id="toast-container" aria-live="polite" aria-atomic="false"></div>
+
+  <!-- ═══════════════════════════════════════════════
+       SCRIPTS (api.js first, then app.js)
+  ══════════════════════════════════════════════════ -->
+  <script src="api.js"></script>
+  <script src="app.js"></script>
+
+</body>
+</html>
