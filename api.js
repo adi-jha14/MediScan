@@ -12,7 +12,7 @@ const GEMINI_BASE =
 
 // ── Hardcoded API Key ──────────────────────────────────────────────────────
 // Replace the value below with your Gemini API key.
-const HARDCODED_API_KEY = "YOUR_API_KEY_HERE";
+const HARDCODED_API_KEY = ""; // Leave empty — users enter their own key in the sidebar
 
 const SYSTEM_PROMPT = `You are MediScan AI, a medical document analysis assistant. Analyze the provided medical image and/or symptom description. Respond ONLY in this exact JSON format with no markdown, no code blocks, no extra text:
 {

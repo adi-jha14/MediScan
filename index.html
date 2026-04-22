@@ -3,23 +3,44 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="MediScan AI — Upload a medical document or describe your symptoms and get an instant, structured AI analysis powered by Google Gemini." />
   <title>MediScan AI — Medical Document Analyzer</title>
+  <meta name="description" content="Upload a medical document or describe your symptoms and get an instant, structured AI analysis powered by Google Gemini 2.5 Flash." />
 
-  <!-- Favicon (inline SVG) -->
+  <!-- Open Graph / Social Sharing -->
+  <meta property="og:type"        content="website" />
+  <meta property="og:title"       content="MediScan AI — Medical Document Analyzer" />
+  <meta property="og:description" content="Upload lab reports, prescriptions, or describe symptoms to get instant AI-powered clinical briefings. Powered by Google Gemini." />
+  <meta property="og:url"         content="https://adi-jha14.github.io/MediScan/" />
+  <meta property="og:image"       content="https://adi-jha14.github.io/MediScan/og-image.png" />
+  <meta name="twitter:card"       content="summary_large_image" />
+  <meta name="twitter:title"      content="MediScan AI — Medical Document Analyzer" />
+  <meta name="twitter:description" content="Instant, structured AI analysis of medical documents and symptoms. Powered by Gemini 2.5 Flash." />
+
+  <!-- Favicon -->
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🩺</text></svg>" />
 
-  <!-- Stylesheet -->
+  <!-- Google Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-  <!-- ═══════════════════════════════════════════════
-       SIDEBAR
-  ══════════════════════════════════════════════════ -->
+  <!-- ═══ PAGE LOADER ══════════════════════════════════════════════════════ -->
+  <div id="page-loader" aria-hidden="true">
+    <div class="loader-inner">
+      <div class="loader-icon">🩺</div>
+      <div class="loader-name">MediScan AI</div>
+      <div class="loader-tagline">Powered by Gemini 2.5 Flash</div>
+      <div class="loader-bar"><div class="loader-bar-fill"></div></div>
+    </div>
+  </div>
+
+  <!-- ═══ SIDEBAR ══════════════════════════════════════════════════════════ -->
   <aside id="sidebar" role="complementary" aria-label="MediScan sidebar">
 
-    <!-- Logo -->
     <div class="sidebar-logo">
       <div class="logo-text">
         <div class="logo-icon" aria-hidden="true">🩺</div>
@@ -30,39 +51,97 @@
       </div>
     </div>
 
+    <!-- API Key -->
+    <div class="sidebar-section" style="margin-top:20px;">
+      <div class="sidebar-section-title">Your Gemini API Key</div>
+      <div class="api-key-wrap">
+        <input id="api-key-input" type="password" placeholder="AIza…"
+          autocomplete="off" spellcheck="false"
+          aria-label="Gemini API key" maxlength="120" />
+        <button id="toggle-api-key" class="icon-btn" aria-label="Show API key" title="Toggle visibility">👁️</button>
+        <button id="save-api-key" class="save-key-btn" aria-label="Save API key">Save</button>
+      </div>
+      <div id="api-key-status" class="api-key-status" role="status" aria-live="polite"></div>
+      <p class="api-key-hint">Get a free key at <a href="https://aistudio.google.com" target="_blank" rel="noopener">aistudio.google.com</a></p>
+    </div>
+
     <!-- Session History -->
-    <div class="sidebar-section" style="margin-top: 24px;">
+    <div class="sidebar-section" style="margin-top:20px;">
       <div class="sidebar-section-title">Scan History</div>
     </div>
     <div class="sidebar-history" aria-label="Session history">
       <ul id="history-list" role="list" aria-label="Past scans"></ul>
     </div>
 
-    <!-- Footer -->
+    <!-- Sidebar Footer -->
     <div class="sidebar-footer">
+      <div class="sidebar-gemini-badge">
+        <span class="gemini-badge-dot"></span>
+        Powered by Google Gemini
+      </div>
       <button id="clear-history-btn" aria-label="Clear all scan history">🗑 Clear History</button>
     </div>
   </aside>
 
-  <!-- ═══════════════════════════════════════════════
-       MOBILE TOP BAR
-  ══════════════════════════════════════════════════ -->
+  <!-- ═══ MOBILE TOP BAR ════════════════════════════════════════════════════ -->
   <div id="topbar" role="banner">
-    <button id="sidebar-toggle" aria-label="Open sidebar" aria-expanded="false">☰</button>
+    <button id="sidebar-toggle" aria-label="Open sidebar">☰</button>
     <span class="topbar-title">🩺 MediScan AI</span>
   </div>
 
-  <!-- Mobile overlay -->
   <div id="main-overlay" aria-hidden="true"></div>
 
-  <!-- ═══════════════════════════════════════════════
-       MAIN CONTENT
-  ══════════════════════════════════════════════════ -->
+  <!-- ═══ MAIN CONTENT ══════════════════════════════════════════════════════ -->
   <main id="main-content" role="main">
-    <div class="content-area">
 
-      <h1 class="page-title">Medical Analysis</h1>
-      <p class="page-subtitle">Upload a medical document or describe your symptoms for an AI‑powered analysis.</p>
+    <!-- ── Hero Section ─────────────────────────────────────────────────── -->
+    <section id="hero-section" aria-label="MediScan AI introduction">
+      <div class="hero-inner">
+
+        <div class="hero-gemini-badge">
+          <span class="hero-gemini-dot"></span>
+          Powered by Gemini 2.5 Flash
+        </div>
+
+        <h1 class="hero-title">Medical Intelligence,<br><span>Instantly Delivered</span></h1>
+        <p class="hero-subtitle">
+          Upload any lab report, prescription, or medicine strip — or simply describe your symptoms.
+          Get a structured, AI-powered clinical briefing in seconds.
+        </p>
+
+        <div class="hero-steps" aria-label="How it works">
+          <div class="hero-step">
+            <div class="step-icon" aria-hidden="true">📁</div>
+            <div class="step-label">Upload Document</div>
+            <div class="step-desc">Lab reports, prescriptions, or medicine strips</div>
+          </div>
+          <div class="hero-step-arrow" aria-hidden="true">→</div>
+          <div class="hero-step">
+            <div class="step-icon" aria-hidden="true">🤖</div>
+            <div class="step-label">AI Analysis</div>
+            <div class="step-desc">Gemini reads and structures your medical data</div>
+          </div>
+          <div class="hero-step-arrow" aria-hidden="true">→</div>
+          <div class="hero-step">
+            <div class="step-icon" aria-hidden="true">📋</div>
+            <div class="step-label">Get Insights</div>
+            <div class="step-desc">Findings, severity flags & doctor questions</div>
+          </div>
+        </div>
+
+        <a href="#analyzer" class="hero-cta" id="hero-cta-btn">
+          Start Analyzing
+          <span class="hero-cta-arrow" aria-hidden="true">↓</span>
+        </a>
+
+      </div>
+    </section>
+
+    <!-- ── Analyzer Section ──────────────────────────────────────────────── -->
+    <div id="analyzer" class="content-area">
+
+      <h2 class="page-title">Medical Analysis</h2>
+      <p class="page-subtitle">Upload a document or describe your symptoms for an AI-powered analysis.</p>
 
       <!-- Error Banner -->
       <div id="error-banner" role="alert" aria-live="assertive">
@@ -71,38 +150,19 @@
         <button id="error-close" class="error-close-btn" aria-label="Dismiss error">✕</button>
       </div>
 
-      <!-- ─── Input Section ───────────────────────────── -->
+      <!-- Input Section -->
       <section class="input-section" aria-label="Document input">
 
-        <!-- Image Upload Card -->
         <div class="input-card">
-          <div class="input-card-title">
-            <span aria-hidden="true">📁</span> Upload Medical Document
-          </div>
-
-          <div
-            id="drop-zone"
-            role="button"
-            tabindex="0"
-            aria-label="Drop zone for medical document image. Click or drag a file here."
-          >
+          <div class="input-card-title"><span aria-hidden="true">📁</span> Upload Medical Document</div>
+          <div id="drop-zone" role="button" tabindex="0"
+            aria-label="Drop zone for medical document image. Click or drag a file here.">
             <span class="drop-zone-icon" aria-hidden="true">🖼️</span>
             <span class="drop-zone-label">Drag &amp; drop your medical image here</span>
-            <span class="drop-zone-hint">
-              or <strong tabindex="0" role="button" aria-label="Choose file">choose a file</strong> · JPEG, PNG, WebP, GIF, BMP
-            </span>
-
-            <!-- Hidden file input -->
-            <input
-              id="file-input"
-              type="file"
+            <span class="drop-zone-hint">or <strong tabindex="0" role="button">choose a file</strong> · JPEG, PNG, WebP, GIF, BMP</span>
+            <input id="file-input" type="file"
               accept="image/jpeg,image/png,image/webp,image/gif,image/bmp"
-              style="display:none"
-              aria-hidden="true"
-              tabindex="-1"
-            />
-
-            <!-- Preview (shown when file selected) -->
+              style="display:none" aria-hidden="true" tabindex="-1" />
             <div id="image-preview" role="img" aria-label="Selected image preview">
               <img id="preview-img" alt="Selected medical document thumbnail" />
               <div class="preview-meta">
@@ -112,72 +172,73 @@
               <button id="remove-image" aria-label="Remove selected image">Remove</button>
             </div>
           </div>
-
           <div id="compression-note" role="status" aria-live="polite">
             ⚠️ Image exceeds 4 MB — it will be automatically compressed before analysis.
           </div>
         </div>
 
-        <!-- Symptoms / Text Input Card -->
         <div class="input-card">
-          <div class="input-card-title">
-            <span aria-hidden="true">✏️</span> Describe Symptoms or Medicine Name
-          </div>
+          <div class="input-card-title"><span aria-hidden="true">✏️</span> Describe Symptoms or Medicine Name</div>
           <div class="textarea-wrap">
-            <textarea
-              id="symptoms-input"
-              placeholder="E.g. 'I have had a persistent cough for 3 weeks, mild fever at night, and fatigue…' or paste medicine names, lab values, dosages…"
-              maxlength="2000"
-              aria-label="Symptom description or medicine names"
-              spellcheck="true"
-            ></textarea>
+            <textarea id="symptoms-input"
+              placeholder="E.g. 'Persistent cough for 3 weeks, mild fever at night, fatigue…' or paste medicine names, lab values, dosages…"
+              maxlength="2000" aria-label="Symptom description or medicine names" spellcheck="true"></textarea>
           </div>
           <div class="char-count" id="char-count" aria-live="polite">0 / 2000</div>
         </div>
 
       </section>
 
-      <!-- ─── Analyze Button ───────────────────────────── -->
       <button id="analyze-btn" aria-label="Analyze medical document">
         <span class="btn-spinner" id="analyze-btn-spinner" aria-hidden="true"></span>
         <span id="analyze-btn-text">Analyze</span>
         <span aria-hidden="true" style="font-size:1.1rem">→</span>
       </button>
 
-      <!-- ─── Results Section ──────────────────────────── -->
+      <!-- Results -->
       <section id="results-section" aria-label="Analysis results" aria-live="polite">
-        <h2 class="results-heading">
-          <span aria-hidden="true">✅</span> Analysis Results
-        </h2>
+        <div class="results-heading-row">
+          <h3 class="results-heading"><span aria-hidden="true">✅</span> Analysis Results</h3>
+          <button id="export-pdf-btn" aria-label="Export results as PDF">
+            <span aria-hidden="true">📄</span> Export PDF
+          </button>
+        </div>
         <div id="results-container" role="region" aria-label="Result cards"></div>
       </section>
 
-    </div><!-- /.content-area -->
+    </div><!-- /#analyzer -->
+
+    <!-- ── Footer ────────────────────────────────────────────────────────── -->
+    <footer id="site-footer" role="contentinfo">
+      <div class="footer-inner">
+        <div class="footer-left">
+          <span class="footer-brand">🩺 MediScan AI</span>
+          <span class="footer-copy">© 2025 Aditya Jha · For educational purposes only</span>
+        </div>
+        <div class="footer-right">
+          <a href="https://github.com/adi-jha14/MediScan" target="_blank" rel="noopener" class="footer-link">GitHub →</a>
+          <a href="https://aistudio.google.com" target="_blank" rel="noopener" class="gemini-footer-badge">
+            <span>✦</span> Powered by Google Gemini
+          </a>
+        </div>
+      </div>
+    </footer>
+
   </main><!-- /#main-content -->
 
-  <!-- ═══════════════════════════════════════════════
-       LOADING OVERLAY
-  ══════════════════════════════════════════════════ -->
+  <!-- ═══ LOADING OVERLAY ═══════════════════════════════════════════════════ -->
   <div id="loading-overlay" role="dialog" aria-modal="true" aria-label="Analyzing your medical data" aria-live="assertive">
     <div class="loading-box">
       <div class="loading-spinner-large" aria-hidden="true"></div>
       <div class="loading-title">Analyzing your medical data…</div>
-      <div class="loading-subtitle">
-        Gemini AI is reading your document.<br />This usually takes 5–15 seconds.
-      </div>
+      <div class="loading-subtitle">Gemini AI is reading your document.<br />This usually takes 5–15 seconds.</div>
     </div>
   </div>
 
-  <!-- ═══════════════════════════════════════════════
-       TOAST CONTAINER
-  ══════════════════════════════════════════════════ -->
+  <!-- ═══ TOAST ════════════════════════════════════════════════════════════ -->
   <div id="toast-container" aria-live="polite" aria-atomic="false"></div>
 
-  <!-- ═══════════════════════════════════════════════
-       SCRIPTS (api.js first, then app.js)
-  ══════════════════════════════════════════════════ -->
   <script src="api.js"></script>
   <script src="app.js"></script>
-
 </body>
 </html>
