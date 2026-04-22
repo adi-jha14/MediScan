@@ -1,45 +1,123 @@
 # MediScan AI 🩺
 
-MediScan AI is a completely client-side vanilla JavaScript web application that analyzes medical documents, prescriptions, and symptoms using the Google Gemini 2.5 Flash multimodal API. 
+> **Live Demo → [adi-jha14.github.io/MediScan](https://adi-jha14.github.io/MediScan/)**
 
-It features a premium, responsive UI and allows users to upload medical documents or write symptoms to generate structured, doctor-ready clinical briefings instantly.
+An AI-powered medical document analyzer built entirely with **vanilla HTML, CSS, and JavaScript** — no frameworks, no build tools, no dependencies. Upload a lab report, prescription, or medicine strip, or simply describe your symptoms, and receive a fully structured clinical briefing in seconds, powered by **Google Gemini 2.5 Flash**.
+
+---
 
 ## ✨ Features
 
-- **Zero-Dependency Architecture:** Built entirely with plain HTML, CSS, and Vanilla JavaScript. No bundlers, no frameworks, no npm packages.
-- **Multimodal AI Analysis:** Supports sending images (lab reports, prescriptions) alongside text descriptions to Gemini 2.5 Flash.
-- **Client-Side Image Compression:** Automatically compresses images over 4MB via HTML Canvas before sending to the API.
-- **Robust JSON Extraction:** Strictly prompts the AI for structured data and surgically extracts JSON from the response to hydrate UI cards.
-- **Local Session History:** Automatically saves past scans mapped with timestamps and severity badges to your browser's `localStorage`.
-- **Dynamic Severity Badges:** Classifies medical urgency into Low (🟢), Moderate (🟡), High (🔴), and Urgent (🔴💓 with pulsing animation).
-- **Responsive & Premium UI:** Designed with modern web standards, featuring drag-and-drop zones, glassmorphism interactions, and a clean clinical navy blue color palette.
+### 🤖 AI Analysis
+- Sends both **image + text simultaneously** to the Gemini multimodal API
+- Enforces strict **structured JSON output** via system prompting — no hallucinated prose
+- Returns 7 structured sections: Document Type, Summary, Key Findings, Flagged Items, Severity Indicator, Doctor Questions, and Disclaimer
+- **Graceful fallback** — if Gemini returns unstructured text, it's still displayed cleanly
+
+### 📁 Smart Image Handling
+- **Drag & drop**, click-to-browse, or **Ctrl+V clipboard paste** for uploads
+- Accepts JPEG, PNG, WebP, GIF, and BMP
+- **Automatic client-side compression** via HTML Canvas — images over 4 MB are silently compressed before sending to prevent API payload limits
+
+### 🎨 Premium UI
+- Branded **page loader** with animated stethoscope on app start
+- **Hero landing section** with gradient background, glassmorphism step cards, and a smooth scroll CTA
+- Dark navy sidebar with session history, API key input, and a live Gemini status badge
+- **Severity badges** with distinct colors: Low 🟢 / Moderate 🟡 / High 🔴 / Urgent 🔴💓 (with CSS pulse animation)
+- Flagged items rendered with red/amber left-border accent cards
+- Fully responsive — works on mobile with collapsible sidebar
+
+### 🗂️ Session History
+- Every scan auto-saved to **localStorage** (last 50 sessions)
+- Sidebar shows timestamp, document type, and severity for each past scan
+- Click any session to **instantly reload** results without re-calling the API
+- Clear History button to wipe all data locally
+
+### 📄 PDF Export
+- One-click **"Export PDF"** button in the results header
+- Custom `@media print` stylesheet hides all UI chrome — only the result cards are printed
+- Works natively in all browsers via `window.print()`
+
+### 🔒 Privacy First
+- **Zero backend** — all processing happens in the browser
+- API calls go directly from your browser to Google's Gemini endpoint — no intermediary server
+- API key stored only in your browser's `localStorage`
+
+---
 
 ## 🚀 Getting Started
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/yourusername/MediScan.git
-   ```
-2. Open `api.js` and locate line 14:
-   ```javascript
-   const HARDCODED_API_KEY = "YOUR_API_KEY_HERE";
-   ```
-3. Replace `"YOUR_API_KEY_HERE"` with your actual Google Gemini API Key. (You can generate one for free at [Google AI Studio](https://aistudio.google.com/)).
-4. Simply double-click `index.html` to open the app directly in your browser. No server required!
+### Option 1 — Use the Live App
+Visit **[adi-jha14.github.io/MediScan](https://adi-jha14.github.io/MediScan/)** directly in your browser.
 
-## 🛠️ Built With
+You will need a free **Google Gemini API key**:
+1. Go to [aistudio.google.com](https://aistudio.google.com/)
+2. Click **Get API key → Create API key**
+3. Paste it into the sidebar input and click **Save**
 
-- **HTML5:** Semantic structure
-- **CSS3:** Native CSS variables, Flexbox, Grid, Animations (No Tailwind/Bootstrap)
-- **Vanilla JavaScript (ES6+):** Fetch API, DOM Manipulation, File Reader, local storage
-- **Google Gemini API:** `gemini-2.5-flash` model via the `v1beta` endpoint to allow System Instructions.
+### Option 2 — Run Locally
+```bash
+git clone https://github.com/adi-jha14/MediScan.git
+cd MediScan
+# Open index.html directly in your browser — no server required
+```
+
+> **Note:** If you want to hardcode your API key for personal local use, open `api.js` and set `HARDCODED_API_KEY` on line 15. **Never commit a real key to Git.**
+
+---
+
+## 🛠️ Tech Stack
+
+| Layer | Technology |
+|---|---|
+| Structure | HTML5 (semantic, accessible) |
+| Styling | Vanilla CSS3 — CSS variables, Flexbox, Grid, animations |
+| Logic | Vanilla JavaScript ES6+ — Fetch API, FileReader, Canvas API, localStorage |
+| AI Model | Google Gemini 2.5 Flash via `v1beta` REST API |
+| Hosting | GitHub Pages |
+
+> **Zero dependencies.** No React, no Tailwind, no npm, no bundler.
+
+---
+
+## 📊 Output Structure
+
+Every analysis returns these 7 sections:
+
+| # | Section | Description |
+|---|---|---|
+| 1 | **Document Type** | What type of medical content was detected |
+| 2 | **Summary** | Plain-English explanation of the document |
+| 3 | **Key Findings** | Important values, medicines, or observations |
+| 4 | **Flagged Items** | Abnormal or risky items, highlighted in red/amber |
+| 5 | **Severity Indicator** | `Low` / `Moderate` / `High` / `Urgent` |
+| 6 | **Doctor Questions** | 3–5 specific follow-up questions to ask your physician |
+| 7 | **Disclaimer** | Always shown — AI is not a substitute for medical advice |
+
+---
 
 ## ⚠️ Disclaimer
 
-**This software is for educational and demonstrational purposes ONLY.** 
-MediScan AI utilizes a generic Large Language Model (Gemini). It can hallucinate or misinterpret critical medical dosages and text. It should **never** be used as a substitute for professional medical advice, diagnosis, or treatment. Always consult a qualified medical professional.
+**MediScan AI is for educational and demonstrational purposes only.**
 
-## 📝 Future Improvements
-- Implement a lightweight Node.js/Python backend to securely hide the API key.
-- Add user authentication and cloud database synchronization (Firebase/Supabase) to retain history across devices.
-- Support chunked file streaming for extremely large high-resolution medical DICOM images.
+It uses a general-purpose Large Language Model (Google Gemini) that can hallucinate, misread dosages, or generate incorrect medical information. It should **never** be used as a substitute for advice from a qualified medical professional. Always consult a licensed doctor for any health-related decisions.
+
+---
+
+## 🔮 Possible Future Improvements
+
+- Lightweight **Node.js/Express** backend to securely store the API key server-side
+- **User authentication** with cloud sync (Firebase / Supabase) for cross-device history
+- **DICOM image support** for clinical radiology scans
+- **Multi-language output** — analysis in the user's native language
+- **Voice input** for symptom descriptions via the Web Speech API
+
+---
+
+## 👤 Author
+
+**Aditya Jha** — [github.com/adi-jha14](https://github.com/adi-jha14)
+
+---
+
+*Powered by [Google Gemini](https://ai.google.dev/) · Deployed on [GitHub Pages](https://pages.github.com/)*
