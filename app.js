@@ -73,7 +73,19 @@ function init() {
 // ─── API Key ─────────────────────────────────────────────────────────────────
 function saveApiKey() {
   const key = els.apiKeyInput.value.trim();
-  if (!key) { showApiKeyStatus("Enter a valid key", "error"); return; }
+
+  if (!key) {
+    showApiKeyStatus("Enter an API key", "error");
+    return;
+  }
+  // Google API keys: start with "AIza", exactly 39 chars, alphanumeric + _-
+  if (!key.startsWith("AIza") || key.length !== 39 || !/^[A-Za-z0-9_\-]+$/.test(key)) {
+    showApiKeyStatus("Invalid key — must start with 'AIza' and be 39 characters", "error");
+    els.apiKeyInput.focus();
+    els.apiKeyInput.select();
+    return;
+  }
+
   state.apiKey = key;
   localStorage.setItem(LS_APIKEY, key);
   showApiKeyStatus("Saved ✓", "success");
