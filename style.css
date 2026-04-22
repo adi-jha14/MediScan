@@ -135,6 +135,10 @@ button { font-family: var(--font); cursor: pointer; }
   flex-shrink: 0;
 }
 .sidebar-logo-mark.small { width: 18px; height: 18px; border-radius: 5px; }
+
+/* Inline SVG logo */
+.logo-svg    { width: 26px; height: 26px; flex-shrink: 0; border-radius: 6px; }
+.logo-svg-sm { width: 20px; height: 20px; border-radius: 5px; }
 .wordmark-ai { color: var(--t2); font-weight: 400; }
 
 /* Divider */
