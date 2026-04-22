@@ -218,19 +218,48 @@ function removeImage() {
   els.compressionNote.style.display = "none";
 }
 
+function shakeTextarea() {
+  const ta = els.symptomsInput;
+  ta.classList.remove("input-error"); // reset if already shaking
+  // Force reflow so the animation restarts cleanly
+  void ta.offsetWidth;
+  ta.classList.add("input-error");
+  ta.focus();
+  ta.addEventListener("animationend", () => ta.classList.remove("input-error"), { once: true });
+}
+
 // ─── Analysis ─────────────────────────────────────────────────────────────────
 async function runAnalysis() {
   const text = els.symptomsInput.value.trim();
 
+  // 1. API key guard
   if (!state.apiKey) {
     showError("Please enter your Gemini API key in the sidebar to continue.");
     els.apiKeyInput?.focus();
     return;
   }
+
+  // 2. Must have at least one input (image OR text)
   if (!state.currentFile && !text) {
-    showError("Please upload a document or describe your symptoms.");
+    showError("Please upload a medical document or describe your symptoms before analyzing.");
+    shakeTextarea();
     return;
   }
+
+  // 3. Text-only submissions need a minimum of 10 meaningful characters
+  if (!state.currentFile && text.length < 10) {
+    showError("Your description is too short. Please provide at least a brief description of your symptoms or medicine name (minimum 10 characters).");
+    shakeTextarea();
+    return;
+  }
+
+  // 4. Reject obvious gibberish — text must contain at least 3 alphabetic characters
+  if (!state.currentFile && (text.replace(/[^a-zA-Z]/g, "").length < 3)) {
+    showError("Please enter a valid symptom description or medicine name. Numbers and symbols alone cannot be analyzed.");
+    shakeTextarea();
+    return;
+  }
+
 
   setLoading(true);
   clearError();

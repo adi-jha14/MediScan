@@ -426,6 +426,20 @@ body {
 }
 #symptoms-input:focus { border-color: var(--navy-400); box-shadow: 0 0 0 3px rgba(58,107,189,.12); background: var(--white); }
 #symptoms-input::placeholder { color: var(--text-muted); }
+
+/* Input validation error state */
+#symptoms-input.input-error {
+  border-color: var(--red) !important;
+  box-shadow: 0 0 0 3px rgba(239,68,68,.15) !important;
+  animation: shake .45s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+@keyframes shake {
+  10%, 90%  { transform: translateX(-2px); }
+  20%, 80%  { transform: translateX(4px);  }
+  30%, 50%, 70% { transform: translateX(-6px); }
+  40%, 60%  { transform: translateX(6px);  }
+}
 .char-count { text-align: right; font-size: .72rem; color: var(--text-muted); margin-top: 5px; }
 
 /* ── Analyze Button ───────────────────────────────────────── */
