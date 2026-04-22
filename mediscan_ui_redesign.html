@@ -1,0 +1,398 @@
+
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: var(--font-sans); }
+
+  .section { margin-bottom: 40px; }
+  .section-label {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-text-tertiary);
+    margin-bottom: 14px;
+    padding-bottom: 6px;
+    border-bottom: 0.5px solid var(--color-border-tertiary);
+  }
+
+  /* ── HERO ── */
+  .hero-old {
+    background: linear-gradient(135deg,#0f172a 0%,#1e3a5f 100%);
+    border-radius: var(--border-radius-lg);
+    padding: 36px 32px;
+    color: #fff;
+    text-align: center;
+  }
+  .hero-old .badge { font-size: 11px; background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.2); padding: 4px 12px; border-radius: 20px; display: inline-block; margin-bottom: 16px; }
+  .hero-old h1 { font-size: 26px; font-weight: 700; margin-bottom: 10px; line-height: 1.25; }
+  .hero-old h1 span { background: linear-gradient(90deg,#60a5fa,#a78bfa); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+  .hero-old p { font-size: 13px; opacity: 0.7; max-width: 400px; margin: 0 auto 20px; line-height: 1.6; }
+  .hero-old .steps { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+  .hero-old .step-card { background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.12); padding: 12px 14px; border-radius: 10px; font-size: 11px; text-align: center; min-width: 120px; }
+  .hero-old .step-card .icon { font-size: 18px; margin-bottom: 6px; }
+  .hero-old .step-card .title { font-weight: 600; margin-bottom: 4px; }
+  .hero-old .step-card .desc { opacity: .6; }
+  .hero-old .arrow { opacity: .4; font-size: 16px; }
+  .hero-old .cta { display: inline-flex; align-items: center; gap: 6px; background: linear-gradient(135deg,#3b82f6,#8b5cf6); color: #fff; border: none; padding: 10px 24px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; }
+
+  /* NEW HERO */
+  .hero-new {
+    background: var(--color-background-secondary);
+    border: 0.5px solid var(--color-border-tertiary);
+    border-radius: var(--border-radius-lg);
+    padding: 36px 32px 28px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-new::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: #1a6ef7;
+    border-radius: 3px 3px 0 0;
+  }
+  .hero-new .top-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
+  .hero-new .wordmark { display: flex; align-items: center; gap: 8px; }
+  .hero-new .wordmark-icon { width: 28px; height: 28px; background: #1a6ef7; border-radius: 7px; display: flex; align-items: center; justify-content: center; }
+  .hero-new .wordmark-icon svg { width: 16px; height: 16px; }
+  .hero-new .wordmark-name { font-size: 15px; font-weight: 500; color: var(--color-text-primary); }
+  .hero-new .wordmark-name span { color: var(--color-text-secondary); font-weight: 400; }
+  .hero-new .gemini-pill { font-size: 11px; color: var(--color-text-secondary); border: 0.5px solid var(--color-border-tertiary); padding: 3px 10px; border-radius: 20px; display: flex; align-items: center; gap: 5px; }
+  .hero-new .gemini-pill::before { content: ''; width: 6px; height: 6px; background: #22c55e; border-radius: 50%; flex-shrink: 0; }
+  .hero-new h1 { font-size: 24px; font-weight: 500; color: var(--color-text-primary); line-height: 1.3; margin-bottom: 8px; }
+  .hero-new p { font-size: 13px; color: var(--color-text-secondary); line-height: 1.6; max-width: 480px; margin-bottom: 24px; }
+  .hero-new .steps { display: flex; gap: 1px; margin-bottom: 24px; }
+  .hero-new .step { flex: 1; background: var(--color-background-primary); padding: 12px 14px; }
+  .hero-new .step:first-child { border-radius: 8px 0 0 8px; border: 0.5px solid var(--color-border-tertiary); }
+  .hero-new .step:last-child { border-radius: 0 8px 8px 0; border: 0.5px solid var(--color-border-tertiary); border-left: none; }
+  .hero-new .step:not(:first-child):not(:last-child) { border: 0.5px solid var(--color-border-tertiary); border-left: none; }
+  .hero-new .step-num { font-size: 11px; color: #1a6ef7; font-weight: 500; margin-bottom: 4px; }
+  .hero-new .step-title { font-size: 12px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 2px; }
+  .hero-new .step-desc { font-size: 11px; color: var(--color-text-tertiary); line-height: 1.4; }
+  .hero-new .cta { display: inline-flex; align-items: center; gap: 6px; background: #1a6ef7; color: #fff; border: none; padding: 9px 20px; border-radius: 7px; font-size: 13px; font-weight: 500; cursor: pointer; }
+
+  /* ── SIDEBAR ── */
+  .sidebar-comparison { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .sidebar-old { background: #0f172a; border-radius: var(--border-radius-lg); padding: 18px; color: #fff; }
+  .sidebar-old .logo { font-size: 14px; font-weight: 700; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+  .sidebar-old .label { font-size: 10px; text-transform: uppercase; letter-spacing: .08em; color: rgba(255,255,255,.4); margin-bottom: 8px; }
+  .sidebar-old input { width: 100%; background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.12); border-radius: 6px; padding: 8px 10px; color: #fff; font-size: 12px; margin-bottom: 4px; }
+  .sidebar-old .hint { font-size: 10px; color: rgba(255,255,255,.3); margin-bottom: 14px; }
+  .sidebar-old .history-item { background: rgba(255,255,255,.06); border-radius: 6px; padding: 8px 10px; font-size: 11px; margin-bottom: 6px; border-left: 3px solid #3b82f6; }
+  .sidebar-old .history-item .type { opacity: .5; font-size: 10px; }
+  .sidebar-old .clear-btn { font-size: 11px; color: rgba(255,255,255,.4); background: none; border: none; cursor: pointer; margin-top: 8px; }
+
+  .sidebar-new { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 18px; }
+  .sidebar-new .logo { font-size: 13px; font-weight: 500; margin-bottom: 16px; display: flex; align-items: center; gap: 7px; color: var(--color-text-primary); }
+  .sidebar-new .logo-dot { width: 20px; height: 20px; background: #1a6ef7; border-radius: 5px; flex-shrink: 0; }
+  .sidebar-new .label { font-size: 10px; text-transform: uppercase; letter-spacing: .08em; color: var(--color-text-tertiary); margin-bottom: 8px; }
+  .sidebar-new input { width: 100%; background: var(--color-background-secondary); border: 0.5px solid var(--color-border-tertiary); border-radius: 6px; padding: 7px 10px; font-size: 12px; color: var(--color-text-primary); margin-bottom: 4px; }
+  .sidebar-new .hint { font-size: 10px; color: var(--color-text-tertiary); margin-bottom: 14px; }
+  .sidebar-new .divider { height: 0.5px; background: var(--color-border-tertiary); margin: 14px 0; }
+  .sidebar-new .history-item { padding: 8px 10px; border-radius: 6px; font-size: 11px; margin-bottom: 4px; cursor: pointer; display: flex; align-items: center; gap: 8px; }
+  .sidebar-new .history-item:hover { background: var(--color-background-secondary); }
+  .sidebar-new .history-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+  .sidebar-new .history-dot.low { background: #22c55e; }
+  .sidebar-new .history-dot.mod { background: #f59e0b; }
+  .sidebar-new .history-item-text { color: var(--color-text-secondary); }
+  .sidebar-new .history-item-time { font-size: 10px; color: var(--color-text-tertiary); }
+  .sidebar-new .clear-btn { font-size: 11px; color: var(--color-text-tertiary); background: none; border: none; cursor: pointer; width: 100%; text-align: left; padding: 6px 0; }
+  .sidebar-new .clear-btn:hover { color: var(--color-text-secondary); }
+
+  /* ── UPLOAD ── */
+  .upload-comparison { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+  .upload-old { background: var(--color-background-secondary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 16px; }
+  .upload-old .card-title { font-size: 12px; font-weight: 500; color: var(--color-text-secondary); margin-bottom: 12px; }
+  .upload-old .dropzone { border: 2px dashed var(--color-border-secondary); border-radius: 8px; padding: 28px 16px; text-align: center; }
+  .upload-old .dz-icon { font-size: 28px; margin-bottom: 8px; }
+  .upload-old .dz-label { font-size: 12px; color: var(--color-text-secondary); margin-bottom: 4px; }
+  .upload-old .dz-hint { font-size: 10px; color: var(--color-text-tertiary); }
+  .upload-old textarea { width: 100%; margin-top: 12px; background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: 6px; padding: 10px; font-size: 12px; color: var(--color-text-primary); height: 64px; resize: none; font-family: var(--font-sans); }
+  .upload-old .analyze-btn { width: 100%; margin-top: 10px; background: linear-gradient(135deg,#3b82f6,#8b5cf6); color: #fff; border: none; padding: 10px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; }
+
+  .upload-new { background: var(--color-background-secondary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 16px; }
+  .upload-new .card-title { font-size: 11px; text-transform: uppercase; letter-spacing: .07em; color: var(--color-text-tertiary); margin-bottom: 12px; }
+  .upload-new .dropzone { border: 0.5px solid var(--color-border-tertiary); border-radius: 8px; padding: 24px 16px; text-align: center; background: var(--color-background-primary); transition: border-color .15s; }
+  .upload-new .dz-icon-wrap { width: 36px; height: 36px; border-radius: 8px; background: var(--color-background-secondary); border: 0.5px solid var(--color-border-tertiary); display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; }
+  .upload-new .dz-icon-wrap svg { width: 18px; height: 18px; color: var(--color-text-tertiary); }
+  .upload-new .dz-label { font-size: 12px; color: var(--color-text-primary); margin-bottom: 3px; }
+  .upload-new .dz-label span { color: #1a6ef7; }
+  .upload-new .dz-hint { font-size: 10px; color: var(--color-text-tertiary); }
+  .upload-new .divider { display: flex; align-items: center; gap: 10px; margin: 12px 0; }
+  .upload-new .divider-line { flex: 1; height: 0.5px; background: var(--color-border-tertiary); }
+  .upload-new .divider-text { font-size: 10px; color: var(--color-text-tertiary); }
+  .upload-new textarea { width: 100%; background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: 6px; padding: 10px; font-size: 12px; color: var(--color-text-primary); height: 64px; resize: none; font-family: var(--font-sans); }
+  .upload-new .analyze-btn { width: 100%; margin-top: 10px; background: #1a6ef7; color: #fff; border: none; padding: 9px; border-radius: 7px; font-size: 13px; font-weight: 500; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; }
+  .upload-new .analyze-btn svg { width: 14px; height: 14px; }
+
+  /* ── RESULTS ── */
+  .results-comparison { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+  .result-old { background: var(--color-background-secondary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 16px; }
+  .result-old .heading-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+  .result-old .heading-row h3 { font-size: 14px; font-weight: 600; color: var(--color-text-primary); }
+  .result-old .export-btn { font-size: 11px; background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); padding: 5px 12px; border-radius: 6px; color: var(--color-text-secondary); cursor: pointer; }
+  .result-old .card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: 8px; padding: 12px; margin-bottom: 8px; }
+  .result-old .card-head { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; color: var(--color-text-tertiary); margin-bottom: 6px; }
+  .result-old .card-body { font-size: 12px; color: var(--color-text-secondary); line-height: 1.5; }
+  .result-old .severity-high { display: inline-flex; align-items: center; gap: 5px; background: #fef2f2; color: #991b1b; font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px; }
+  .result-old .flagged { border-left: 3px solid #ef4444; background: #fef2f2; border-radius: 0 6px 6px 0; padding: 8px 10px; font-size: 12px; color: #7f1d1d; margin-bottom: 6px; }
+
+  .result-new { background: var(--color-background-secondary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 16px; }
+  .result-new .heading-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+  .result-new .heading-row h3 { font-size: 13px; font-weight: 500; color: var(--color-text-primary); }
+  .result-new .actions { display: flex; gap: 6px; }
+  .result-new .export-btn { font-size: 11px; background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); padding: 4px 10px; border-radius: 5px; color: var(--color-text-secondary); cursor: pointer; display: flex; align-items: center; gap: 4px; }
+  .result-new .meta-row { display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
+  .result-new .meta-chip { font-size: 10px; padding: 3px 9px; border-radius: 4px; font-weight: 500; }
+  .result-new .chip-type { background: #eff6ff; color: #1d4ed8; border: 0.5px solid #bfdbfe; }
+  .result-new .chip-sev { background: #fef2f2; color: #b91c1c; border: 0.5px solid #fecaca; }
+  .result-new .card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: 8px; overflow: hidden; margin-bottom: 8px; }
+  .result-new .card-head { font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: .07em; color: var(--color-text-tertiary); padding: 8px 12px 0; }
+  .result-new .card-body { font-size: 12px; color: var(--color-text-secondary); line-height: 1.6; padding: 5px 12px 10px; }
+  .result-new .flagged { display: flex; gap: 8px; padding: 8px 12px; background: #fff7ed; border-top: 0.5px solid #fed7aa; }
+  .result-new .flagged-dot { width: 6px; height: 6px; background: #f97316; border-radius: 50%; flex-shrink: 0; margin-top: 4px; }
+  .result-new .flagged-text { font-size: 11px; color: #9a3412; line-height: 1.5; }
+
+  /* ── TAGS ── */
+  .tag { display: inline-block; font-size: 10px; font-weight: 500; padding: 2px 8px; border-radius: 4px; }
+  .tag-before { background: var(--color-background-danger); color: var(--color-text-danger); border: 0.5px solid var(--color-border-danger); }
+  .tag-after { background: var(--color-background-success); color: var(--color-text-success); border: 0.5px solid var(--color-border-success); }
+
+  .col-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+  .col-header-label { font-size: 12px; font-weight: 500; color: var(--color-text-secondary); }
+</style>
+
+<h2 class="sr-only">MediScan UI redesign mockups — before and after comparison</h2>
+
+<!-- HERO -->
+<div class="section">
+  <div class="section-label">1 — Hero section</div>
+  <div class="col-header" style="margin-bottom:6px">
+    <div class="col-header-label">Current — dark gradient, heavy gradients</div>
+    <div class="col-header-label" style="text-align:right">Suggested — clean, confident, medical</div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:6px">
+    <span class="tag tag-before">Before</span>
+    <span class="tag tag-after">After</span>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+    <!-- OLD -->
+    <div class="hero-old">
+      <div class="badge">✦ Powered by Gemini 2.5 Flash</div>
+      <h1>Medical Intelligence,<br><span>Instantly Delivered</span></h1>
+      <p>Upload any lab report, prescription, or medicine strip — or simply describe your symptoms.</p>
+      <div class="steps">
+        <div class="step-card"><div class="icon">📁</div><div class="title">Upload Document</div><div class="desc">Lab reports, prescriptions</div></div>
+        <div class="arrow">→</div>
+        <div class="step-card"><div class="icon">🤖</div><div class="title">AI Analysis</div><div class="desc">Gemini reads your data</div></div>
+        <div class="arrow">→</div>
+        <div class="step-card"><div class="icon">📋</div><div class="title">Get Insights</div><div class="desc">Findings & flags</div></div>
+      </div>
+      <button class="cta">Start Analyzing ↓</button>
+    </div>
+
+    <!-- NEW -->
+    <div class="hero-new">
+      <div class="top-row">
+        <div class="wordmark">
+          <div class="wordmark-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4"/><circle cx="12" cy="12" r="3"/></svg>
+          </div>
+          <span class="wordmark-name">MediScan <span>AI</span></span>
+        </div>
+        <div class="gemini-pill">Gemini 2.5 Flash</div>
+      </div>
+      <h1>Understand your<br>medical documents.</h1>
+      <p>Upload a lab report, prescription, or medicine strip. Get a structured clinical briefing in seconds.</p>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">01</div>
+          <div class="step-title">Upload</div>
+          <div class="step-desc">Lab reports, prescriptions, or medicine strips</div>
+        </div>
+        <div class="step">
+          <div class="step-num">02</div>
+          <div class="step-title">Analyze</div>
+          <div class="step-desc">Gemini reads and structures your data</div>
+        </div>
+        <div class="step">
+          <div class="step-num">03</div>
+          <div class="step-title">Insights</div>
+          <div class="step-desc">Findings, flags, and doctor questions</div>
+        </div>
+      </div>
+      <button class="cta">Start analyzing</button>
+    </div>
+  </div>
+</div>
+
+<!-- SIDEBAR -->
+<div class="section">
+  <div class="section-label">2 — Sidebar</div>
+  <div class="col-header" style="margin-bottom:6px">
+    <div class="col-header-label">Current — dark navy, low contrast</div>
+    <div class="col-header-label" style="text-align:right">Suggested — light, structured, scannable</div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:6px">
+    <span class="tag tag-before">Before</span>
+    <span class="tag tag-after">After</span>
+  </div>
+
+  <div class="sidebar-comparison">
+    <div class="sidebar-old">
+      <div class="logo">🩺 MediScan AI</div>
+      <div class="label">Your Gemini API Key</div>
+      <input type="password" placeholder="AIza…" />
+      <div class="hint">Get a free key at aistudio.google.com</div>
+      <div class="label">Scan History</div>
+      <div class="history-item"><div>CBC Blood Panel</div><div class="type">Lab Report · 2 min ago · 🟡 Moderate</div></div>
+      <div class="history-item"><div>Metformin 500mg</div><div class="type">Prescription · 1 hr ago · 🟢 Low</div></div>
+      <button class="clear-btn">🗑 Clear History</button>
+    </div>
+    <div class="sidebar-new">
+      <div class="logo"><div class="logo-dot"></div> MediScan AI</div>
+      <div class="label">API Key</div>
+      <input type="password" placeholder="AIza…" />
+      <div class="hint">Get a free key at aistudio.google.com</div>
+      <div class="divider"></div>
+      <div class="label">Recent scans</div>
+      <div class="history-item">
+        <div class="history-dot mod"></div>
+        <div style="flex:1"><div class="history-item-text">CBC Blood Panel</div><div class="history-item-time">2 min ago · Moderate</div></div>
+      </div>
+      <div class="history-item">
+        <div class="history-dot low"></div>
+        <div style="flex:1"><div class="history-item-text">Metformin 500mg</div><div class="history-item-time">1 hr ago · Low</div></div>
+      </div>
+      <button class="clear-btn">Clear history</button>
+    </div>
+  </div>
+</div>
+
+<!-- UPLOAD AREA -->
+<div class="section">
+  <div class="section-label">3 — Upload & input area</div>
+  <div class="col-header" style="margin-bottom:6px">
+    <div class="col-header-label">Current — emoji-heavy, dashed border</div>
+    <div class="col-header-label" style="text-align:right">Suggested — minimal, focused</div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:6px">
+    <span class="tag tag-before">Before</span>
+    <span class="tag tag-after">After</span>
+  </div>
+
+  <div class="upload-comparison">
+    <div class="upload-old">
+      <div class="card-title">📁 Upload Medical Document</div>
+      <div class="dropzone">
+        <div class="dz-icon">🖼️</div>
+        <div class="dz-label">Drag & drop your medical image here</div>
+        <div class="dz-hint">or <strong>choose a file</strong> · JPEG, PNG, WebP, GIF, BMP</div>
+      </div>
+      <textarea placeholder="✏️ Describe Symptoms or Medicine Name…"></textarea>
+      <button class="analyze-btn">Analyze →</button>
+    </div>
+
+    <div class="upload-new">
+      <div class="card-title">Document</div>
+      <div class="dropzone">
+        <div class="dz-icon-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        </div>
+        <div class="dz-label"><span>Choose a file</span> or drag it here</div>
+        <div class="dz-hint">JPEG, PNG, WebP, GIF, BMP</div>
+      </div>
+      <div class="divider"><div class="divider-line"></div><div class="divider-text">or describe</div><div class="divider-line"></div></div>
+      <textarea placeholder="Symptoms, medicine names, lab values…"></textarea>
+      <button class="analyze-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        Analyze
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- RESULTS -->
+<div class="section">
+  <div class="section-label">4 — Results cards</div>
+  <div class="col-header" style="margin-bottom:6px">
+    <div class="col-header-label">Current — scattered severity, loud borders</div>
+    <div class="col-header-label" style="text-align:right">Suggested — compact, chip-based metadata</div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:6px">
+    <span class="tag tag-before">Before</span>
+    <span class="tag tag-after">After</span>
+  </div>
+
+  <div class="results-comparison">
+    <div class="result-old">
+      <div class="heading-row"><h3>✅ Analysis Results</h3><button class="export-btn">📄 Export PDF</button></div>
+      <div class="card"><div class="card-head">Document Type</div><div class="card-body">Complete Blood Count (CBC) Lab Report</div></div>
+      <div class="card"><div class="card-head">Severity Indicator</div><div class="card-body"><span class="severity-high">🔴 High</span></div></div>
+      <div class="card"><div class="card-head">Flagged Items</div><div class="card-body">
+        <div class="flagged">Hemoglobin: 8.2 g/dL (low — normal 13.5–17.5)</div>
+        <div class="flagged">WBC: 14.5 K/uL (elevated — may indicate infection)</div>
+      </div></div>
+    </div>
+
+    <div class="result-new">
+      <div class="heading-row">
+        <h3>Analysis results</h3>
+        <div class="actions">
+          <button class="export-btn">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Export
+          </button>
+        </div>
+      </div>
+      <div class="meta-row">
+        <span class="meta-chip chip-type">CBC Lab Report</span>
+        <span class="meta-chip chip-sev">High severity</span>
+      </div>
+      <div class="card">
+        <div class="card-head">Summary</div>
+        <div class="card-body">Complete Blood Count showing low hemoglobin and elevated white blood cell count.</div>
+      </div>
+      <div class="card">
+        <div class="card-head">Flagged items</div>
+        <div class="flagged"><div class="flagged-dot"></div><div class="flagged-text">Hemoglobin: 8.2 g/dL — below normal range (13.5–17.5)</div></div>
+        <div class="flagged" style="border-top:0.5px solid #fed7aa"><div class="flagged-dot"></div><div class="flagged-text">WBC: 14.5 K/uL — elevated, possible infection</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- KEY CHANGES SUMMARY -->
+<div class="section" style="margin-bottom:0">
+  <div class="section-label">Key changes at a glance</div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px">
+    <div style="background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:12px">
+      <div style="font-size:11px;font-weight:500;color:var(--color-text-primary);margin-bottom:4px">Drop the dark sidebar</div>
+      <div style="font-size:11px;color:var(--color-text-secondary)">Use the same light surface as the main content</div>
+    </div>
+    <div style="background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:12px">
+      <div style="font-size:11px;font-weight:500;color:var(--color-text-primary);margin-bottom:4px">Replace gradients</div>
+      <div style="font-size:11px;color:var(--color-text-secondary)">A single brand blue (#1a6ef7) replaces the blue-purple gradient</div>
+    </div>
+    <div style="background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:12px">
+      <div style="font-size:11px;font-weight:500;color:var(--color-text-primary);margin-bottom:4px">Remove emojis from UI</div>
+      <div style="font-size:11px;color:var(--color-text-secondary)">Replace 📁 ✅ 📋 🤖 with SVG icons or text labels</div>
+    </div>
+    <div style="background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:12px">
+      <div style="font-size:11px;font-weight:500;color:var(--color-text-primary);margin-bottom:4px">Rewrite the headline</div>
+      <div style="font-size:11px;color:var(--color-text-secondary)">"Understand your medical documents." beats jargon-heavy copy</div>
+    </div>
+    <div style="background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:12px">
+      <div style="font-size:11px;font-weight:500;color:var(--color-text-primary);margin-bottom:4px">Severity as a chip</div>
+      <div style="font-size:11px;color:var(--color-text-secondary)">Move severity + doc type to compact chips at the top of results</div>
+    </div>
+    <div style="background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:12px">
+      <div style="font-size:11px;font-weight:500;color:var(--color-text-primary);margin-bottom:4px">Weight: 400 / 500</div>
+      <div style="font-size:11px;color:var(--color-text-secondary)">Replace 700-weight headings with 500 — looks intentional, not AI-default</div>
+    </div>
+  </div>
+</div>
